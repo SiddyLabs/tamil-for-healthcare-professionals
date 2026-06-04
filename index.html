@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tamil for Healthcare Professionals</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+
+        <h1>Tamil for Healthcare Professionals</h1>
+
+        <p class="subtitle">
+            Learn spoken Tamil for clinical communication through interactive quizzes.
+        </p>
+
+        <div class="card">
+
+            <h2>Quiz Setup</h2>
+
+            <div class="section">
+
+                <h3>Mode</h3>
+
+                <label>
+                    <input type="radio" name="mode" value="t2e" checked>
+                    Tamil → English
+                </label>
+
+                <label>
+                    <input type="radio" name="mode" value="e2t">
+                    English → Tamil
+                </label>
+
+            </div>
+
+            <div class="section">
+
+                <h3>Difficulty</h3>
+
+                <label>
+                    <input type="radio" name="difficulty" value="beginner" checked>
+                    Beginner
+                </label>
+
+                <label>
+                    <input type="radio" name="difficulty" value="intermediate">
+                    Intermediate
+                </label>
+
+                <label>
+                    <input type="radio" name="difficulty" value="advanced">
+                    Advanced
+                </label>
+
+            </div>
+
+            <div class="section">
+
+                <h3>Number of Questions</h3>
+
+                <input
+                    type="number"
+                    id="questionCount"
+                    min="5"
+                    max="500"
+                    value="20"
+                >
+
+                <p class="hint">
+                    Allowed range: 5–500
+                </p>
+
+            </div>
+
+            <button id="startBtn">
+                Start Quiz
+            </button>
+
+        </div>
+
+        <footer>
+
+            <p>
+                Created by Dr. Siddharth Bableshwar
+            </p>
+
+            <p>
+                Suggestions / Corrections:
+                SiddharthBableshwar@gmail.com
+            </p>
+
+            <p>
+                Version 1.0
+            </p>
+
+        </footer>
+
+    </div>
+
+    <script src="questions.js"></script>
+    <script src="script.js"></script>
+
+</body>
+</html>
