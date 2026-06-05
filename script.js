@@ -5,6 +5,7 @@ let streak = 0;
 let bestStreak = 0;
 let mistakes = [];
 let currentMode = "t2e";
+let currentDifficulty = "beginner";
 
 const container = document.querySelector(".container");
 
@@ -23,6 +24,11 @@ function startQuiz() {
             'input[name="mode"]:checked'
         ).value;
 
+        const selectedDifficulty =
+    document.querySelector(
+        'input[name="difficulty"]:checked'
+    ).value;
+
     if (requestedQuestions < 5) {
         alert("Minimum 5 questions");
         return;
@@ -36,10 +42,12 @@ function startQuiz() {
     }
 
     currentMode = selectedMode;
+    currentDifficulty = selectedDifficulty;
 
-    quizQuestions = shuffle([...QUESTIONS]).slice(
-        0,
-        requestedQuestions
+    quizQuestions =
+    generateQuestions(
+        requestedQuestions,
+        currentDifficulty
     );
 
     currentQuestionIndex = 0;
@@ -49,6 +57,92 @@ function startQuiz() {
     mistakes = [];
 
     showQuestion();
+}
+
+function generateQuestions(
+    totalQuestions,
+    difficulty
+) {
+
+    let wordPercent;
+    let phrasePercent;
+    let sentencePercent;
+
+    if (difficulty === "beginner") {
+
+        wordPercent = 0.50;
+        phrasePercent = 0.30;
+        sentencePercent = 0.20;
+
+    } else if (
+        difficulty === "intermediate"
+    ) {
+
+        wordPercent = 0.25;
+        phrasePercent = 0.35;
+        sentencePercent = 0.40;
+
+    } else {
+
+        wordPercent = 0.10;
+        phrasePercent = 0.20;
+        sentencePercent = 0.70;
+
+    }
+
+    const words =
+        QUESTIONS.filter(
+            q => q.type === "word"
+        );
+
+    const phrases =
+        QUESTIONS.filter(
+            q => q.type === "phrase"
+        );
+
+    const sentences =
+        QUESTIONS.filter(
+            q => q.type === "sentence"
+        );
+
+    const selectedWords =
+        shuffle([...words]).slice(
+            0,
+            Math.round(
+                totalQuestions *
+                wordPercent
+            )
+        );
+
+    const selectedPhrases =
+        shuffle([...phrases]).slice(
+            0,
+            Math.round(
+                totalQuestions *
+                phrasePercent
+            )
+        );
+
+    const selectedSentences =
+        shuffle([...sentences]).slice(
+            0,
+            Math.round(
+                totalQuestions *
+                sentencePercent
+            )
+        );
+
+    return shuffle([
+
+        ...selectedWords,
+        ...selectedPhrases,
+        ...selectedSentences
+
+    ]).slice(
+        0,
+        totalQuestions
+    );
+
 }
 
 function showQuestion() {
@@ -159,7 +253,7 @@ buttons.forEach(button => {
 button.style.cursor = "not-allowed";
     const text =
         button.textContent.trim();
-        
+
     if (text === correctAnswer) {
 
         button.style.backgroundColor =
