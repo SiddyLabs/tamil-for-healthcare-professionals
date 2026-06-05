@@ -293,6 +293,125 @@ const QUESTIONS = [
     tamil: "Vikkal",
     english: "Hiccup",
     type: "word"
-  }
+  },
+  // =========================
+// INSTRUCTIONS
+// =========================
+
+{
+  tamil: "Va",
+  english: "Come",
+  type: "word"
+},
+{
+  tamil: "Po",
+  english: "Go",
+  type: "word"
+},
+{
+  tamil: "Ukkar",
+  english: "Sit",
+  type: "word"
+},
+{
+  tamil: "Padu",
+  english: "Lie Down",
+  type: "phrase"
+},
+{
+  tamil: "Thoongu",
+  english: "Sleep",
+  type: "word"
+},
+{
+  tamil: "Nada",
+  english: "Walk",
+  type: "word"
+},
+{
+  tamil: "Padi",
+  english: "Read",
+  type: "word"
+},
+{
+  tamil: "Intha Pakkam Thirumbu",
+  english: "Turn This Side",
+  type: "phrase"
+},
+{
+  tamil: "Antha Pakkam Thirumbu",
+  english: "Turn That Side",
+  type: "phrase"
+},
+{
+  tamil: "Mele Paar",
+  english: "Look Up",
+  type: "phrase"
+},
+{
+  tamil: "Keezhe Paar",
+  english: "Look Down",
+  type: "phrase"
+},
+{
+  tamil: "Kannai Moodu",
+  english: "Close Your Eyes",
+  type: "phrase"
+},
+{
+  tamil: "Nakkai Neettu",
+  english: "Show Your Tongue",
+  type: "phrase"
+},
+{
+  tamil: "Vaayai Thira",
+  english: "Open Your Mouth",
+  type: "phrase"
+},
+{
+  tamil: "Periya Moochu Edu",
+  english: "Take a Deep Breath",
+  type: "sentence"
+},
+{
+  tamil: "Kai Mele Thooku",
+  english: "Lift Your Hand",
+  type: "phrase"
+},
+{
+  tamil: "Kaiyai Irukki Moodu",
+  english: "Close Your Fist",
+  type: "phrase"
+},
+{
+  tamil: "Kaigalai Madi",
+  english: "Fold Your Hands",
+  type: "phrase"
+},
+{
+  tamil: "Kaalai Thooku",
+  english: "Lift Your Leg",
+  type: "phrase"
+},
+{
+  tamil: "Kaalai Madi",
+  english: "Fold Your Leg",
+  type: "phrase"
+},
+{
+  tamil: "Payirchi",
+  english: "Exercise",
+  type: "word"
+},
+{
+  tamil: "Ezhundhu Nada",
+  english: "Get Up and Walk",
+  type: "sentence"
+},
+{
+  tamil: "Paarthu Nada",
+  english: "Look and Walk",
+  type: "sentence"
+}
 
 ];
