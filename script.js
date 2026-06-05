@@ -8,7 +8,17 @@ let currentMode = "t2e";
 let currentDifficulty = "beginner";
 
 const container = document.querySelector(".container");
+const questionCountDisplay =
+    document.getElementById(
+        "questionBankCount"
+    );
 
+if (questionCountDisplay) {
+
+    questionCountDisplay.textContent =
+        `Question Bank: ${QUESTIONS.length} Questions`;
+
+}
 document
     .getElementById("startBtn")
     .addEventListener("click", startQuiz);
