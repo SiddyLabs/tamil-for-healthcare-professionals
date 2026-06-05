@@ -8,17 +8,21 @@ let currentMode = "t2e";
 
 const container = document.querySelector(".container");
 
-document.getElementById("startBtn").addEventListener("click", startQuiz);
+document
+    .getElementById("startBtn")
+    .addEventListener("click", startQuiz);
 
 function startQuiz() {
 
     const requestedQuestions = parseInt(
         document.getElementById("questionCount").value
     );
-const selectedMode =
-    document.querySelector(
-        'input[name="mode"]:checked'
-    ).value;
+
+    const selectedMode =
+        document.querySelector(
+            'input[name="mode"]:checked'
+        ).value;
+
     if (requestedQuestions < 5) {
         alert("Minimum 5 questions");
         return;
@@ -31,13 +35,14 @@ const selectedMode =
         return;
     }
 
+    currentMode = selectedMode;
+
     quizQuestions = shuffle([...QUESTIONS]).slice(
         0,
         requestedQuestions
     );
 
     currentQuestionIndex = 0;
-    currentMode = selectedMode;
     score = 0;
     streak = 0;
     bestStreak = 0;
@@ -48,9 +53,16 @@ const selectedMode =
 
 function showQuestion() {
 
-    const question = quizQuestions[currentQuestionIndex];
+    const question =
+        quizQuestions[currentQuestionIndex];
 
-    const options = buildOptions(question);
+    const options =
+        buildOptions(question);
+
+    const questionText =
+        currentMode === "t2e"
+            ? question.tamil
+            : question.english;
 
     container.innerHTML = `
         <h1>Tamil for Healthcare Professionals</h1>
@@ -62,15 +74,10 @@ function showQuestion() {
                 / ${quizQuestions.length}
             </h2>
 
-            <h3>
-${
-    currentMode === "t2e"
-        ? question.tamil
-        : question.english
-}
-</h3>
+            <h3>${questionText}</h3>
 
             <div id="options">
+
                 ${options
                     .map(
                         option => `
@@ -80,6 +87,7 @@ ${
                     `
                     )
                     .join("")}
+
             </div>
 
         </div>
@@ -89,65 +97,145 @@ ${
         .querySelectorAll(".optionBtn")
         .forEach(button => {
 
-            button.addEventListener("click", () => {
-
-                const selected = button.textContent.trim();
-
-               const correctAnswer =
-    currentMode === "t2e"
-        ? question.english
-        : question.tamil;
-
-if (selected === correctAnswer) {
-
-                    score++;
-
-                    streak++;
-
-                    if (streak > bestStreak) {
-                        bestStreak = streak;
-                    }
-
-                } else {
-
-                    streak = 0;
-
-                    mistakes.push({
-
-    question:
-        currentMode === "t2e"
-            ? question.tamil
-            : question.english,
-
-    answer:
-        currentMode === "t2e"
-            ? question.english
-            : question.tamil
-
-});
-                }
-
-                currentQuestionIndex++;
-
-                if (
-                    currentQuestionIndex >= quizQuestions.length
-                ) {
-                    showResults();
-                } else {
-                    showQuestion();
-                }
-
-            });
+            button.addEventListener(
+                "click",
+                () => handleAnswer(
+                    question,
+                    button.textContent.trim()
+                )
+            );
 
         });
 
 }
 
+function handleAnswer(
+    question,
+    selected
+) {
+
+    const correctAnswer =
+        currentMode === "t2e"
+            ? question.english
+            : question.tamil;
+
+    const wasCorrect =
+        selected === correctAnswer;
+
+    if (wasCorrect) {
+
+        score++;
+
+        streak++;
+
+        if (streak > bestStreak) {
+            bestStreak = streak;
+        }
+
+    } else {
+
+        streak = 0;
+
+        mistakes.push({
+
+            question:
+                currentMode === "t2e"
+                    ? question.tamil
+                    : question.english,
+
+            answer:
+                correctAnswer
+
+        });
+
+    }
+
+    const buttons =
+    document.querySelectorAll(".optionBtn");
+
+buttons.forEach(button => {
+
+    button.disabled = true;
+button.style.cursor = "not-allowed";
+    const text =
+        button.textContent.trim();
+        
+    if (text === correctAnswer) {
+
+        button.style.backgroundColor =
+            "#4CAF50";
+
+        button.style.color = "white";
+
+    }
+
+    if (
+        text === selected &&
+        !wasCorrect
+    ) {
+
+        button.style.backgroundColor =
+            "#f44336";
+
+        button.style.color = "white";
+
+    }
+
+});
+
+const feedbackDiv =
+    document.createElement("div");
+
+feedbackDiv.innerHTML = wasCorrect
+    ? "<h3>✅ Correct!</h3>"
+    : `<h3>❌ Wrong! Correct answer: ${correctAnswer}</h3>`;
+
+document
+    .querySelector(".card")
+    .appendChild(feedbackDiv);
+
+const nextButton =
+    document.createElement("button");
+
+nextButton.textContent =
+    "Next Question";
+
+nextButton.addEventListener(
+    "click",
+    () => {
+
+        currentQuestionIndex++;
+
+        if (
+            currentQuestionIndex >=
+            quizQuestions.length
+        ) {
+
+            showResults();
+
+        } else {
+
+            showQuestion();
+
+        }
+
+    }
+);
+
+document
+    .querySelector(".card")
+    .appendChild(nextButton);
+}
+
+
+
 function showResults() {
 
     const accuracy =
         (
-            (score / quizQuestions.length) * 100
+            score /
+            quizQuestions.length *
+            100
         ).toFixed(1);
 
     let mistakesHtml = "";
@@ -159,18 +247,27 @@ function showResults() {
 
     } else {
 
-        mistakes.forEach((item, index) => {
+        mistakes.forEach(
+            (item, index) => {
 
-            mistakesHtml += `
-                <div class="card">
-                    <strong>${index + 1}. ${item.question}</strong>
-                    <br>
-                    Correct Answer:
-                    ${item.answer}
-                </div>
-            `;
+                mistakesHtml += `
+                    <div class="card">
 
-        });
+                        <strong>
+                            ${index + 1}.
+                            ${item.question}
+                        </strong>
+
+                        <br>
+
+                        Correct Answer:
+                        ${item.answer}
+
+                    </div>
+                `;
+
+            }
+        );
 
     }
 
@@ -179,18 +276,28 @@ function showResults() {
 
         <div class="card">
 
-            <p><strong>Score:</strong>
-            ${score} / ${quizQuestions.length}</p>
+            <p>
+                <strong>Score:</strong>
+                ${score}
+                /
+                ${quizQuestions.length}
+            </p>
 
-            <p><strong>Accuracy:</strong>
-            ${accuracy}%</p>
+            <p>
+                <strong>Accuracy:</strong>
+                ${accuracy}%
+            </p>
 
-            <p><strong>Best Streak:</strong>
-            ${bestStreak}</p>
+            <p>
+                <strong>Best Streak:</strong>
+                ${bestStreak}
+            </p>
 
         </div>
 
-        <h2>Mistakes</h2>
+        <h2>
+            Questions Answered Incorrectly
+        </h2>
 
         ${mistakesHtml}
 
@@ -200,6 +307,7 @@ function showResults() {
             New Quiz
         </button>
     `;
+
 }
 
 function buildOptions(question) {
@@ -209,25 +317,22 @@ function buildOptions(question) {
             ? question.english
             : question.tamil;
 
-    const wrongAnswers = shuffle(
+    const wrongAnswers =
+        shuffle(
 
-        QUESTIONS
-            .filter(q => {
+            QUESTIONS
+                .filter(q =>
+                    currentMode === "t2e"
+                        ? q.english !== question.english
+                        : q.tamil !== question.tamil
+                )
+                .map(q =>
+                    currentMode === "t2e"
+                        ? q.english
+                        : q.tamil
+                )
 
-                return currentMode === "t2e"
-                    ? q.english !== question.english
-                    : q.tamil !== question.tamil;
-
-            })
-            .map(q => {
-
-                return currentMode === "t2e"
-                    ? q.english
-                    : q.tamil;
-
-            })
-
-    ).slice(0, 3);
+        ).slice(0, 3);
 
     return shuffle([
         correctAnswer,
@@ -235,6 +340,7 @@ function buildOptions(question) {
     ]);
 
 }
+
 function shuffle(array) {
 
     for (
@@ -245,12 +351,20 @@ function shuffle(array) {
 
         const j =
             Math.floor(
-                Math.random() * (i + 1)
+                Math.random() *
+                (i + 1)
             );
 
-        [array[i], array[j]] =
-        [array[j], array[i]];
+        [
+            array[i],
+            array[j]
+        ] = [
+            array[j],
+            array[i]
+        ];
+
     }
 
     return array;
+
 }
