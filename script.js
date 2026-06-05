@@ -411,21 +411,29 @@ function buildOptions(question) {
             ? question.english
             : question.tamil;
 
+    let candidateQuestions =
+        QUESTIONS.filter(q =>
+            q.category === question.category &&
+            q !== question
+        );
+
+    if (candidateQuestions.length < 3) {
+
+        candidateQuestions =
+            QUESTIONS.filter(q =>
+                q.type === question.type &&
+                q !== question
+            );
+
+    }
+
     const wrongAnswers =
         shuffle(
-
-            QUESTIONS
-                .filter(q =>
-                    currentMode === "t2e"
-                        ? q.english !== question.english
-                        : q.tamil !== question.tamil
-                )
-                .map(q =>
-                    currentMode === "t2e"
-                        ? q.english
-                        : q.tamil
-                )
-
+            candidateQuestions.map(q =>
+                currentMode === "t2e"
+                    ? q.english
+                    : q.tamil
+            )
         ).slice(0, 3);
 
     return shuffle([
