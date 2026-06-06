@@ -1,5 +1,7 @@
 # Tamil for Healthcare Professionals
 
+![Screenshot](screenshot.png)
+
 Interactive Tamil learning tool designed for doctors, medical students, nurses and healthcare professionals working in Tamil-speaking regions.
 
 Created by **Dr. Siddharth Bableshwar**
